@@ -1,0 +1,31 @@
+## AsyncCmdProcessor.vim
+
+This is a small plugin for vim 8.0+, which manages to run commands asynchronously and reports the output in a vim buffer.
+For simplicity the plugin allows to only run one asynchronous command at a time.
+
+### Basic Usage
+
+The plugin exports the following command `:Async` to run jobs asynchronously. It can be used for example like:
+```
+:Async ls
+:Async scons -j16 test
+:Async find . -type f -exec grep -nHI function {} +
+```
+The output from stdout/stderr is collected in a named buffer `async_buffer`.
+
+### Exported Keymaps
+
+The plugin exports the following keymaps for the `normal` mode:
+```
+<leader>a   -  Puts :Async in vim command line to submit a asynchronous job.
+<leader>ab  -  Switch to async_buffer in current window.
+<leader>ak  -  Kill the current asynchronous job.
+```
+
+### Exported Functions
+
+The plugin exports the following function(s):
+```
+GetAsyncJobStatus()  -  Return the status of the currently running / last finished job.
+                        The returned string has the following format '<job_status>:<return_value>'
+```
