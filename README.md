@@ -13,6 +13,13 @@ The plugin exports the following command `:Async` to run jobs asynchronously. It
 ```
 The output from stdout/stderr is collected in the named buffer `async_buffer`.
 
+### Optional Configuration
+
+The name of the output buffer can be influenced with the following variable:
+```
+let g:gACP_buffer_name = 'some_name'
+```
+
 ### Exported Keymaps
 
 The plugin exports the following keymaps for the `normal` mode:
