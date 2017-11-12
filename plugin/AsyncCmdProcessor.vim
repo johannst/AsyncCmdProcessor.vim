@@ -29,7 +29,10 @@ function! s:JobExitCB(job, status)
 endfunction
 
 let s:gAsyncJobRunning=0
-let g:gAsyncBuffer=0
+let s:gAsyncBuffer=0
+function! s:GetAsyncBuffer()
+	return s:gAsyncBuffer
+endfunction
 function! s:AsyncCmdProcessor(...)
    if a:0 == 0
       echom 'AsyncCmdProcessor: no cmd specified'
@@ -44,7 +47,7 @@ function! s:AsyncCmdProcessor(...)
    let s:gAsyncJobRunning=1
 
    let l:current_buffer = bufnr('%')
-   let g:gAsyncBuffer = s:CreateLogBuffer('async_buffer')
+   let s:gAsyncBuffer = s:CreateLogBuffer('async_buffer')
    execute 'b ' . l:current_buffer
 
    " concatenate command string
@@ -56,11 +59,11 @@ function! s:AsyncCmdProcessor(...)
 
    let s:gAsyncJob = job_start(l:cmd, {
             \ 'out_io': 'buffer',
-            \ 'out_buf': g:gAsyncBuffer,
+            \ 'out_buf': s:gAsyncBuffer,
             \ 'out_cb': function('s:StdOutCB'),
             \ 'out_msg': '0',
             \ 'err_io': 'buffer',
-            \ 'err_buf': g:gAsyncBuffer,
+            \ 'err_buf': s:gAsyncBuffer,
             \ 'err_cb': function('s:StdErrCB'),
             \ 'err_msg': '0',
             \ 'exit_cb': function('s:JobExitCB')
@@ -129,7 +132,7 @@ endfunction
 command! -complete=file -nargs=* Async call s:AsyncCmdProcessor(<f-args>)
 " Space after :Async explicitly wanted ;)
 nnoremap <leader>a :Async 
-nnoremap <leader>ab :execute ':buffer ' . g:gAsyncBuffer<CR>
+nnoremap <leader>ab :execute ':buffer ' . <SID>GetAsyncBuffer()<CR>
 nnoremap <leader>ak :call <SID>KillAsyncJob()<CR>
 
 "% vim:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1
