@@ -3,6 +3,13 @@
 This is a small plugin for vim 8.0+ which manages to run commands asynchronously and reports the output in a vim buffer.
 For simplicity the plugin allows to only run one asynchronous command at a time.
 
+### Installation
+
+The plugin structure is **pathogen** and **Vundle** conform and can be easily installed as the following:
+```
+Plugin 'johannst/AsyncCmdProcessor.vim'
+```
+
 ### Basic Usage
 
 The plugin exports the following command `:Async` to run jobs asynchronously. It can be used like this:
